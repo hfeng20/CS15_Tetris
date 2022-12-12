@@ -68,4 +68,33 @@ public class Piece {
         }
         this.addToPane();
     }
+
+    public void moveRight() {
+        this.removeFromPane();
+        for (int i = 0; i < 4; i++) {
+            this.coords[i][1]++;
+        }
+        this.addToPane();
+    }
+
+    public void moveLeft() {
+        this.removeFromPane();
+        for (int i = 0; i < 4; i++) {
+            this.coords[i][1]--;
+        }
+        this.addToPane();
+    }
+
+    public int[][] getCoords() {
+        return this.coords;
+    }
 }
+
+// for(
+
+// int i = 0;i<this.coords.length;i++)
+// {
+// int[] duple = this.coords[i];
+// this.coords[i] = new int[] { startCoords[0] + duple[0], startCoords[1] +
+// duple[1] };
+// }

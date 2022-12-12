@@ -10,8 +10,13 @@ public class Board {
         for (int i = 0; i < board.length; i++) {
             for (int t = 0; t < board[0].length; t++) {
                 Square newSquare = new Square(i, t);
+                board[i][t] = newSquare;
                 pane.getChildren().addAll(newSquare.getShape());
             }
         }
+    }
+
+    public Square[][] getSquares() {
+        return this.board;
     }
 }

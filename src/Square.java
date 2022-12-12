@@ -13,8 +13,8 @@ public class Square {
         this.y = y;
         this.shape = new Rectangle(Constants.SQUARE_WIDTH, Constants.SQUARE_WIDTH,
                 x < 1 || x > 12 || y < 1 || y > 24 ? Color.LIGHTCYAN : Color.BLACK);
-        this.shape.setX(175 + x * 25);
-        this.shape.setY(y * 25);
+        this.shape.setX(175 + x * Constants.SQUARE_WIDTH);
+        this.shape.setY(y * Constants.SQUARE_WIDTH);
         this.shape.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");
     }
 
@@ -29,5 +29,9 @@ public class Square {
 
     public boolean isOccupied() {
         return this.occupied;
+    }
+
+    public void setOccupied() {
+        this.occupied = true;
     }
 }

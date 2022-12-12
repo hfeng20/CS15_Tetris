@@ -1,9 +1,13 @@
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 public class PaneOrganizer {
 
@@ -20,11 +24,6 @@ public class PaneOrganizer {
     new Game(center);
     root.setCenter(center);
     center.setFocusTraversable(true);
-    center.setOnKeyPressed(KeyEvent -> handleKeyPress(KeyEvent));
-  }
-
-  private Object handleKeyPress(KeyEvent keyEvent) {
-    return null;
   }
 
   private void setupBottom() {
