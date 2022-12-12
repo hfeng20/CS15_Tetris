@@ -28,19 +28,29 @@ public class Board {
     public void clearRows() {
         for (int i = 0; i < 26; i++) {
             boolean shouldClear = true;
-            for (int t = 0; t < 14; t++) {
+            for (int t = 1; t < 13; t++) {
                 if (!board[t][i].isOccupied()) {
                     shouldClear = false;
                     break;
                 }
             }
-            System.out.println(shouldClear);
             if (shouldClear) {
-                for (int t = 0; t < 14; t++) {
-                    for (int x = i; x > 0; x--) {
-                        board[t][x + 1] = board[t][x];
+                for (int y = 0; y < board.length; y++) {
+                    for (int t = 0; t < board[0].length; t++) {
+                        this.boardPane.getChildren().remove(board[y][t].getShape());
                     }
-                    board[t][1] = new Square(1, t);
+                }
+                for (int t = 1; t < 13; t++) {
+                    for (int x = i; x > 1; x--) {
+                        board[t][x] = board[t][x - 1];
+                        board[t][x - 1].getShape().setY(board[t][x - 1].getShape().getY() + 25);
+                    }
+                    board[t][1] = new Square(t, 1);
+                }
+                for (int y = 0; y < board.length; y++) {
+                    for (int t = 0; t < board[0].length; t++) {
+                        this.boardPane.getChildren().add(board[y][t].getShape());
+                    }
                 }
                 i--;
             }

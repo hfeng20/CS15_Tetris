@@ -11,7 +11,9 @@ public class Game {
     private Board board;
     private Pane pane;
     private Piece currentPiece;
+    private boolean playing = true;
     private Timeline timeline;
+    private int[] currentPieceCoords = { 0, 0 };
 
     public Game(Pane pane) {
         this.pane = pane;
@@ -32,15 +34,20 @@ public class Game {
         }
         if (canMoveDown) {
             this.currentPiece.moveDown();
+            this.currentPieceCoords[1]++;
         } else {
             for (int[] coord : currentCoords) {
                 currentSquares[coord[1] + 6][coord[0] + 1].setOccupied();
+                currentSquares[coord[1] + 6][coord[0] + 1].setColor(this.currentPiece.getColor());
             }
             if (board.isOver()) {
                 this.timeline.stop();
+                this.reset();
                 return;
             }
             this.board.clearRows();
+            this.reset();
+            this.currentPiece.removeFromPane();
             this.currentPiece = new Piece(this.pane);
         }
     }
@@ -50,12 +57,13 @@ public class Game {
         int[][] currentCoords = this.currentPiece.getCoords();
         boolean canMoveRight = true;
         for (int[] coord : currentCoords) {
-            if (coord[1] + 6 == 12 || currentSquares[coord[1] + 6 + 1][coord[0] + 1].isOccupied()) {
+            if (coord[1] + 6 >= 12 || currentSquares[coord[1] + 6 + 1][coord[0] + 1].isOccupied()) {
                 canMoveRight = false;
             }
         }
         if (canMoveRight) {
             this.currentPiece.moveRight();
+            this.currentPieceCoords[0]++;
         }
     }
 
@@ -64,12 +72,13 @@ public class Game {
         int[][] currentCoords = this.currentPiece.getCoords();
         boolean canMoveLeft = true;
         for (int[] coord : currentCoords) {
-            if (coord[1] + 6 == 1 || currentSquares[coord[1] + 6 - 1][coord[0] + 1].isOccupied()) {
+            if (coord[1] + 6 <= 1 || currentSquares[coord[1] + 6 - 1][coord[0] + 1].isOccupied()) {
                 canMoveLeft = false;
             }
         }
         if (canMoveLeft) {
             this.currentPiece.moveLeft();
+            this.currentPieceCoords[0]--;
         }
     }
 
@@ -80,8 +89,28 @@ public class Game {
         }
     }
 
+    public void rotate() {
+        int[][] originalCoords = this.currentPiece.getOriginalCoords();
+        Square[][] currentSquares = this.board.getSquares();
+        boolean canRotate = true;
+        for (int[] coord : originalCoords) {
+            int temp1 = coord[0];
+            int temp0 = -1 * coord[1];
+            if (temp0 + this.currentPieceCoords[1] + 1 < 1 || temp0 + this.currentPieceCoords[1] + 1 > 23
+                    || temp1 + this.currentPieceCoords[0] + 6 <= 1 || temp1 + this.currentPieceCoords[0] + 6 > 12
+                    || currentSquares[temp1 + this.currentPieceCoords[0] + 6][temp0 + this.currentPieceCoords[1] + 1]
+                            .isOccupied()) {
+                canRotate = false;
+                break;
+            }
+        }
+        if (canRotate) {
+            this.currentPiece.rotate(this.currentPieceCoords[0], this.currentPieceCoords[1]);
+        }
+    }
+
     private void setupTimeline() {
-        KeyFrame kf = new KeyFrame(Duration.seconds(.2),
+        KeyFrame kf = new KeyFrame(Duration.seconds(.5),
                 (ActionEvent e) -> this.moveDown());
         this.timeline = new Timeline(kf);
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -90,13 +119,26 @@ public class Game {
 
     private void handleKeyPress(KeyEvent e) {
         KeyCode keyPressed = e.getCode();
-        if (keyPressed == KeyCode.RIGHT) {
+        if (keyPressed == KeyCode.RIGHT && this.playing) {
             this.moveRight();
-        } else if (keyPressed == KeyCode.LEFT) {
+        } else if (keyPressed == KeyCode.LEFT && this.playing) {
             this.moveLeft();
-        } else if (keyPressed == KeyCode.SPACE) {
+        } else if (keyPressed == KeyCode.SPACE && this.playing) {
             this.moveDownCompletely();
+        } else if (keyPressed == KeyCode.UP && this.playing) {
+            this.rotate();
+        } else if (keyPressed == KeyCode.P) {
+            if (this.playing) {
+                this.timeline.pause();
+            } else {
+                this.timeline.play();
+            }
+            this.playing = !this.playing;
         }
         e.consume();
+    }
+
+    private void reset() {
+        this.currentPieceCoords = new int[] { 0, 0 };
     }
 }
