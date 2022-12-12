@@ -46,7 +46,7 @@ public class Game {
         int[][] currentCoords = this.currentPiece.getCoords();
         boolean canMoveRight = true;
         for (int[] coord : currentCoords) {
-            if (coord[0] + 1 == 23 || currentSquares[coord[1] + 6 + 1][coord[0]].isOccupied()) {
+            if (coord[1] + 6 == 12 || currentSquares[coord[1] + 6 + 1][coord[0] + 1].isOccupied()) {
                 canMoveRight = false;
             }
         }
@@ -60,7 +60,7 @@ public class Game {
         int[][] currentCoords = this.currentPiece.getCoords();
         boolean canMoveLeft = true;
         for (int[] coord : currentCoords) {
-            if (coord[0] + 1 == 23 || currentSquares[coord[1] + 6 - 1][coord[0] + 1].isOccupied()) {
+            if (coord[1] + 6 == 1 || currentSquares[coord[1] + 6 - 1][coord[0] + 1].isOccupied()) {
                 canMoveLeft = false;
             }
         }
