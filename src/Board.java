@@ -16,6 +16,37 @@ public class Board {
         }
     }
 
+    public boolean isOver() {
+        for (int i = 0; i < 14; i++) {
+            if (board[i][1].isOccupied()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void clearRows() {
+        for (int i = 0; i < 26; i++) {
+            boolean shouldClear = true;
+            for (int t = 0; t < 14; t++) {
+                if (!board[t][i].isOccupied()) {
+                    shouldClear = false;
+                    break;
+                }
+            }
+            System.out.println(shouldClear);
+            if (shouldClear) {
+                for (int t = 0; t < 14; t++) {
+                    for (int x = i; x > 0; x--) {
+                        board[t][x + 1] = board[t][x];
+                    }
+                    board[t][1] = new Square(1, t);
+                }
+                i--;
+            }
+        }
+    }
+
     public Square[][] getSquares() {
         return this.board;
     }

@@ -10,9 +10,8 @@ import javafx.util.Duration;
 public class Game {
     private Board board;
     private Pane pane;
-    private KeyFrame keyframe;
-    private Timeline timeline;
     private Piece currentPiece;
+    private Timeline timeline;
 
     public Game(Pane pane) {
         this.pane = pane;
@@ -22,7 +21,7 @@ public class Game {
         pane.setOnKeyPressed(KeyEvent -> handleKeyPress(KeyEvent));
     }
 
-    public void action() {
+    public void moveDown() {
         Square[][] currentSquares = this.board.getSquares();
         int[][] currentCoords = this.currentPiece.getCoords();
         boolean canMoveDown = true;
@@ -37,6 +36,11 @@ public class Game {
             for (int[] coord : currentCoords) {
                 currentSquares[coord[1] + 6][coord[0] + 1].setOccupied();
             }
+            if (board.isOver()) {
+                this.timeline.stop();
+                return;
+            }
+            this.board.clearRows();
             this.currentPiece = new Piece(this.pane);
         }
     }
@@ -69,10 +73,17 @@ public class Game {
         }
     }
 
+    public void moveDownCompletely() {
+        Piece currPiece = this.currentPiece;
+        while (this.currentPiece.equals(currPiece)) {
+            this.moveDown();
+        }
+    }
+
     private void setupTimeline() {
         KeyFrame kf = new KeyFrame(Duration.seconds(.2),
-                (ActionEvent e) -> this.action());
-        Timeline timeline = new Timeline(kf);
+                (ActionEvent e) -> this.moveDown());
+        this.timeline = new Timeline(kf);
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
@@ -83,6 +94,8 @@ public class Game {
             this.moveRight();
         } else if (keyPressed == KeyCode.LEFT) {
             this.moveLeft();
+        } else if (keyPressed == KeyCode.SPACE) {
+            this.moveDownCompletely();
         }
         e.consume();
     }
