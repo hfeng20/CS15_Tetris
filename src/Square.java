@@ -12,7 +12,7 @@ public class Square {
         this.x = x;
         this.y = y;
         this.shape = new Rectangle(Constants.SQUARE_WIDTH, Constants.SQUARE_WIDTH,
-                x < 2 || x > 11 || y < 2 || y > 23 ? Color.DARKBLUE : Color.BLACK);
+                x < 1 || x > 12 || y < 1 || y > 24 ? Color.LIGHTCYAN : Color.BLACK);
         this.shape.setX(175 + x * 25);
         this.shape.setY(y * 25);
         this.shape.setStyle("-fx-stroke: black; -fx-stroke-width: 1;");

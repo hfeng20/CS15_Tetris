@@ -17,7 +17,7 @@ public class PaneOrganizer {
 
   private void setupCenter() {
     Pane center = new Pane();
-    new Board(center);
+    new Game(center);
     root.setCenter(center);
     center.setFocusTraversable(true);
     center.setOnKeyPressed(KeyEvent -> handleKeyPress(KeyEvent));
