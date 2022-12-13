@@ -2,6 +2,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -14,8 +15,10 @@ public class Game {
     private boolean playing = true;
     private Timeline timeline;
     private int[] currentPieceCoords = { 0, 0 };
+    private Label label;
 
-    public Game(Pane pane) {
+    public Game(Pane pane, Label label) {
+        this.label = label;
         this.pane = pane;
         this.board = new Board(this.pane);
         this.currentPiece = new Piece(this.pane);
@@ -42,6 +45,8 @@ public class Game {
             }
             if (board.isOver()) {
                 this.timeline.stop();
+                this.playing = false;
+                this.label.setText("Game Over!");
                 this.reset();
                 return;
             }
@@ -127,11 +132,15 @@ public class Game {
             this.moveDownCompletely();
         } else if (keyPressed == KeyCode.UP && this.playing) {
             this.rotate();
+        } else if (keyPressed == KeyCode.DOWN && this.playing) {
+            this.moveDown();
         } else if (keyPressed == KeyCode.P) {
             if (this.playing) {
                 this.timeline.pause();
+                this.label.setText("Paused");
             } else {
                 this.timeline.play();
+                this.label.setText("Tetris");
             }
             this.playing = !this.playing;
         }
