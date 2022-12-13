@@ -10,29 +10,31 @@ public class Piece {
     private Square[] squares = new Square[4];
     private Pane pane;
     private Color color;
+    private int type;
 
     public Piece(Pane pane) {
         this.pane = pane;
         int random = (int) (Math.random() * 7);
+        this.type = random;
         switch (random) {
             case 0:
-                this.coords = new int[][] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 } };
-                this.originalCoords = new int[][] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 } };
+                this.coords = new int[][] { { -1, 0 }, { 0, 0 }, { 1, 0 }, { 2, 0 } };
+                this.originalCoords = new int[][] { { -1, 0 }, { 0, 0 }, { 1, 0 }, { 2, 0 } };
                 this.color = Color.AQUA;
                 break;
             case 1:
-                this.coords = new int[][] { { 0, 0 }, { 0, 1 }, { 1, 1 }, { 0, 2 } };
-                this.originalCoords = new int[][] { { 0, 0 }, { 0, 1 }, { 1, 1 }, { 0, 2 } };
+                this.coords = new int[][] { { 0, -1 }, { 0, 0 }, { 1, 0 }, { 0, 1 } };
+                this.originalCoords = new int[][] { { 0, -1 }, { 0, 0 }, { 1, 0 }, { 0, 1 } };
                 this.color = Color.PURPLE;
                 break;
             case 2:
-                this.coords = new int[][] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 2, 1 } };
-                this.originalCoords = new int[][] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 2, 1 } };
+                this.coords = new int[][] { { -1, 0 }, { 0, 0 }, { 1, 0 }, { 1, 1 } };
+                this.originalCoords = new int[][] { { -1, 0 }, { 0, 0 }, { 1, 0 }, { 1, 1 } };
                 this.color = Color.ORANGE;
                 break;
             case 3:
-                this.coords = new int[][] { { 0, 1 }, { 1, 1 }, { 2, 1 }, { 2, 0 } };
-                this.originalCoords = new int[][] { { 0, 1 }, { 1, 1 }, { 2, 1 }, { 2, 0 } };
+                this.coords = new int[][] { { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 } };
+                this.originalCoords = new int[][] { { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 } };
                 this.color = Color.PINK;
                 break;
             case 4:
@@ -41,13 +43,13 @@ public class Piece {
                 this.color = Color.YELLOW;
                 break;
             case 5:
-                this.coords = new int[][] { { 1, 0 }, { 1, 1 }, { 0, 1 }, { 0, 2 } };
-                this.originalCoords = new int[][] { { 1, 0 }, { 1, 1 }, { 0, 1 }, { 0, 2 } };
+                this.coords = new int[][] { { 1, -1 }, { 1, 0 }, { 0, 0 }, { 0, 1 } };
+                this.originalCoords = new int[][] { { 1, -1 }, { 1, 0 }, { 0, 0 }, { 0, 1 } };
                 this.color = Color.RED;
                 break;
             case 6:
-                this.coords = new int[][] { { 0, 0 }, { 0, 1 }, { 1, 1 }, { 1, 2 } };
-                this.originalCoords = new int[][] { { 0, 0 }, { 0, 1 }, { 1, 1 }, { 1, 2 } };
+                this.coords = new int[][] { { 0, -1 }, { 0, 0 }, { 1, 0 }, { 1, 1 } };
+                this.originalCoords = new int[][] { { 0, -1 }, { 0, 0 }, { 1, 0 }, { 1, 1 } };
                 this.color = Color.GREEN;
                 break;
         }
